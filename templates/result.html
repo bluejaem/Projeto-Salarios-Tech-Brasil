@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resultado - Média Salarial</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <main class="card">
+      <h1>Resultado da Consulta</h1>
+
+      {% if resultado %}
+      <p><strong>Linguagem:</strong> {{ linguagem }}</p>
+      <p><strong>Região:</strong> {{ regiao }}</p>
+      <div class="box">
+        <h2>Estimativa</h2>
+        <pre>{{ resultado }}</pre>
+      </div>
+      {% else %}
+      <p>Não há dados cadastrados para a combinação selecionada.</p>
+      {% endif %}
+
+      <a class="link" href="/">Fazer nova consulta</a>
+    </main>
+  </body>
+</html>
