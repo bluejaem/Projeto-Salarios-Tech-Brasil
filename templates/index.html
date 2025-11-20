@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Consulta Média Salarial</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <main class="card">
+      <h1>Consulta de Média Salarial</h1>
+      <p>Escolha a linguagem e a região para ver a estimativa salarial.</p>
+
+      <form action="/resultado" method="get">
+        <label for="linguagem">Linguagem</label>
+        <select id="linguagem" name="linguagem" required>
+          <option value="">-- selecione --</option>
+          {% for l in linguagens %}
+          <option value="{{ l }}">{{ l }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="regiao">Região</label>
+        <select id="regiao" name="regiao" required>
+          <option value="">-- selecione --</option>
+          {% for r in regioes %}
+          <option value="{{ r }}">{{ r }}</option>
+          {% endfor %}
+        </select>
+
+        <div class="actions">
+          <button type="submit">Consultar</button>
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
