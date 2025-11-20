@@ -1,3 +1,61 @@
+# Consulta de Salários Tech Brasil
+
+Este repositório contém duas maneiras de consultar médias/estimativas salariais por linguagem e região:
+
+- Um utilitário CLI em `programa.py` (executado em terminal).
+- Uma interface web estática moderna e responsiva na pasta `web/` — recomendada para uso por qualquer pessoa (mobile ou desktop).
+
+## Pasta `web` (interface recomendada)
+
+Descrição:
+
+- SPA estática (HTML/CSS/JS) responsiva com botões por linguagem, seleção de região e seção que mostra vantagens de cada linguagem.
+- Os dados usados pela SPA ficam em `web/dados.json` (cópia dos dados originais) para permitir uso sem backend.
+
+Como usar localmente:
+
+1. Abra o arquivo `web/index.html` diretamente no navegador (funciona em muitos casos). Para evitar restrições de CORS em alguns navegadores, recomenda-se servir a pasta `web` com um servidor HTTP simples:
+
+   ```powershell
+   cd web
+   python -m http.server 8000
+   ```
+
+   Depois abra: `http://127.0.0.1:8000`
+
+2. A interface é responsiva e funciona bem em dispositivos mobile e desktop.
+
+## Executar o CLI
+
+Para usuários que preferem o terminal:
+
+```powershell
+python programa.py
+```
+
+## Executar o servidor Flask (opcional)
+
+Há também um exemplo de servidor Flask (`app.py`) que expõe uma interface simples. Para usá-lo instale dependências e execute:
+
+```powershell
+pip install -r requirements.txt
+python app.py
+```
+
+Abra: `http://127.0.0.1:5000`
+
+## Notas técnicas
+
+- A SPA estática foi criada para ser fácil de hospedar em qualquer servidor estático (GitHub Pages, Netlify, Vercel, etc.).
+- A seção de vantagens exibe pontos curtos e práticos para cada linguagem; você pode editar `web/app.js` para ajustar os textos.
+
+## Próximos passos possíveis
+
+- Converter as faixas textuais em números para calcular médias numéricas.
+- Adicionar traduções e suporte para mais regiões.
+
+---
+Feito para desenvolvedores — interface responsiva e simples.
 #  Consulta de Salários Tech Brasil
 
 Este projeto consiste em uma aplicação de linha de comando (CLI) desenvolvida em **Python** que atua como um consultor de mercado para profissionais de tecnologia. O objetivo é fornecer uma estimativa salarial precisa e contextualizada baseada na **Linguagem de Programação** e na **Região Geográfica** de atuação no Brasil.
