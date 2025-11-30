@@ -1,4 +1,5 @@
 from __init__ import carregar_dados, ConsultaErro, criar_app, Blueprint
+from os import getenv
 
 
 def __main_legacy():
@@ -62,7 +63,7 @@ def __main_legacy():
 def main():
     BP = Blueprint("main", __name__)
 
-    criar_app(BP).run(debug=True)
+    criar_app(BP).run(debug=getenv("FLASK_DEBUG", "false").lower() == "true")
 
 
 if __name__ == "__main__":

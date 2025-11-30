@@ -25,15 +25,13 @@ def carregar_dados(caminho_arquivo: str) -> dict[str, dict[str, float | str]]:
 def get_homepage() -> str:
     """Retorna o conteúdo HTML da página inicial."""
 
-    homepage_path = WEB_DIR / "index.html"
-
-    return render_template(homepage_path.name)
+    return render_template("index.html")
 
 
 def criar_app(blueprint: Blueprint) -> Flask:
     """Cria e configura a aplicação Flask com o blueprint fornecido."""
 
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path="/", template_folder=WEB_DIR)
 
     # Definir as rotas do blueprint
     blueprint.route("/", methods=["GET"])(get_homepage)
