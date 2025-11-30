@@ -1,24 +1,8 @@
-import json
+from __init__ import carregar_dados, ConsultaErro, criar_app, Blueprint
+from os import getenv
 
 
-class ConsultaErro(Exception):
-    pass
-
-
-def carregar_dados(caminho_arquivo):
-    """Tenta carregar o arquivo JSON. Retorna um dicionário vazio se falhar."""
-
-    try:
-
-        with open(caminho_arquivo, "r", encoding="utf-8") as arquivo:
-            return json.load(arquivo)
-    except FileNotFoundError as e:
-        raise ConsultaErro(f"O arquivo {caminho_arquivo!r} não foi encontrado.") from e
-    except json.JSONDecodeError as e:
-        raise ConsultaErro(f"O arquivo {caminho_arquivo!r} está mal formatado.") from e
-
-
-def main():
+def __main_legacy():
     print("--- Consulta de Média Salarial de Desenvolvedores ---")
     print("Este programa consulta a média salarial baseada na linguagem e região.")
 
@@ -32,7 +16,7 @@ def main():
     linguagens_validas = list(base_de_dados.keys())
     regioes_validas = ["norte", "nordeste", "centro-oeste", "sudeste", "sul"]
 
-    def obter_input_usuario(mensagem, lista_validacao):
+    def obter_input_usuario(mensagem: str, lista_validacao: list[str]) -> str:
         while True:
             entrada = input(mensagem).strip().lower()
 
@@ -74,6 +58,12 @@ def main():
         print(f"\nMédia Salarial Estimada: R$ {media_salarial:.2f}")
 
     print("=" * 40)
+
+
+def main():
+    BP = Blueprint("main", __name__)
+
+    criar_app(BP).run(debug=getenv("FLASK_DEBUG", "false").lower() == "true")
 
 
 if __name__ == "__main__":
