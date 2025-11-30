@@ -53,11 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Popular o dropdown de linguagens
     function popularSelectLinguagens() {
         const linguagens = Object.keys(database);
+
         linguagens.forEach(key => {
             const option = document.createElement('option');
             option.value = key;
+
             // Pega o nome formatado do JSON (ex: "C#") ou usa a chave em maiúsculo
             option.textContent = database[key].nome || key.toUpperCase();
+            
             langSelect.appendChild(option);
         });
     }
