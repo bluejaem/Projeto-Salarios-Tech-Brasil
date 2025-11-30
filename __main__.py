@@ -1,6 +1,7 @@
-from . import carregar_dados, ConsultaErro
+from __init__ import carregar_dados, ConsultaErro, criar_app, Blueprint
 
-def main():
+
+def __main_legacy():
     print("--- Consulta de Média Salarial de Desenvolvedores ---")
     print("Este programa consulta a média salarial baseada na linguagem e região.")
 
@@ -14,7 +15,7 @@ def main():
     linguagens_validas = list(base_de_dados.keys())
     regioes_validas = ["norte", "nordeste", "centro-oeste", "sudeste", "sul"]
 
-    def obter_input_usuario(mensagem, lista_validacao):
+    def obter_input_usuario(mensagem: str, lista_validacao: list[str]) -> str:
         while True:
             entrada = input(mensagem).strip().lower()
 
@@ -56,6 +57,12 @@ def main():
         print(f"\nMédia Salarial Estimada: R$ {media_salarial:.2f}")
 
     print("=" * 40)
+
+
+def main():
+    BP = Blueprint("main", __name__)
+
+    criar_app(BP).run(debug=True)
 
 
 if __name__ == "__main__":
