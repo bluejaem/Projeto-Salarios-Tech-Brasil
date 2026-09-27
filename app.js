@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     popularSelects();
     vincularEventos();
   } catch (err) {
-    console.error("Erro na leitura de dados.json:", err);
+    console.error("Falha ao carregar a base dados.json:", err);
   }
 });
 
@@ -16,7 +16,7 @@ function popularSelects() {
   const selectLinguagem = document.getElementById("select-linguagem");
   const selectRegiao = document.getElementById("select-regiao");
 
-  selectLinguagem.innerHTML = '<option value="">Selecione uma linguagem</option>';
+  selectLinguagem.innerHTML = '<option value="">Selecione...</option>';
   for (const lang in techData.linguagens) {
     const opt = document.createElement("option");
     opt.value = lang;
@@ -27,7 +27,7 @@ function popularSelects() {
   const primeiraLang = Object.keys(techData.linguagens)[0];
   const regioesDisponiveis = Object.keys(techData.linguagens[primeiraLang].regioes);
 
-  selectRegiao.innerHTML = '<option value="">Selecione a região</option>';
+  selectRegiao.innerHTML = '<option value="">Selecione...</option>';
   regioesDisponiveis.forEach(regiao => {
     const opt = document.createElement("option");
     opt.value = regiao;
@@ -57,9 +57,7 @@ function executarConsulta() {
   const lang = document.getElementById("select-linguagem").value;
   const regiao = document.getElementById("select-regiao").value;
 
-  if (!lang || !regiao) {
-    return;
-  }
+  if (!lang || !regiao) return;
 
   const stack = techData.linguagens[lang];
   const salario = stack.regioes[regiao];
@@ -70,12 +68,21 @@ function executarConsulta() {
   document.getElementById("results-panel").classList.remove("hidden");
 
   document.getElementById("res-title-stack").textContent = `Remuneração: ${lang}`;
-  document.getElementById("res-regiao-badge").textContent = `Região: ${regiao}`;
+  document.getElementById("res-regiao-badge").textContent = `Localidade: ${regiao}`;
   document.getElementById("res-demanda-badge").textContent = stack.demanda;
 
-  document.getElementById("sal-jr-txt").textContent = `${formatarReal(salario.junior[0])} - ${formatarReal(salario.junior[1])}`;
-  document.getElementById("sal-pl-txt").textContent = `${formatarReal(salario.pleno[0])} - ${formatarReal(salario.pleno[1])}`;
-  document.getElementById("sal-sr-txt").textContent = `${formatarReal(salario.senior[0])} - ${formatarReal(salario.senior[1])}`;
+  // Valores Mínimos e Máximos na Tabela
+  document.getElementById("sal-jr-min").textContent = formatarReal(salario.junior[0]);
+  document.getElementById("sal-jr-max").textContent = formatarReal(salario.junior[1]);
+  document.getElementById("sal-jr-med").textContent = formatarReal((salario.junior[0] + salario.junior[1]) / 2);
+
+  document.getElementById("sal-pl-min").textContent = formatarReal(salario.pleno[0]);
+  document.getElementById("sal-pl-max").textContent = formatarReal(salario.pleno[1]);
+  document.getElementById("sal-pl-med").textContent = formatarReal((salario.pleno[0] + salario.pleno[1]) / 2);
+
+  document.getElementById("sal-sr-min").textContent = formatarReal(salario.senior[0]);
+  document.getElementById("sal-sr-max").textContent = formatarReal(salario.senior[1]);
+  document.getElementById("sal-sr-med").textContent = formatarReal((salario.senior[0] + salario.senior[1]) / 2);
 
   currentSalaries = {
     junior: (salario.junior[0] + salario.junior[1]) / 2,
@@ -90,7 +97,6 @@ function executarConsulta() {
   containerTags.innerHTML = "";
   stack.frameworks.forEach(fw => {
     const span = document.createElement("span");
-    span.className = "tag-item";
     span.textContent = fw;
     containerTags.appendChild(span);
   });
@@ -108,28 +114,32 @@ function selecionarSalarioParaCalculadora(senioridade) {
 
 function calcularCLTvsPJ() {
   const bruto = parseFloat(document.getElementById("input-salario").value) || 0;
-
   if (bruto <= 0) return;
 
-  let percDescontoCLT = 0.16;
-  if (bruto > 4000 && bruto <= 8000) percDescontoCLT = 0.22;
-  else if (bruto > 8000) percDescontoCLT = 0.26;
+  // Base CLT
+  let taxaEfetiva = 0.16;
+  if (bruto > 4500 && bruto <= 9000) taxaEfetiva = 0.22;
+  else if (bruto > 9000) taxaEfetiva = 0.27;
 
-  const descontosCLT = bruto * percDescontoCLT;
-  const liquidoCLT = bruto - descontosCLT;
-  const beneficiosDiluidos = bruto * 0.27;
+  const deducoesCLT = bruto * taxaEfetiva;
+  const liquidoCLT = bruto - deducoesCLT;
+  const provisoesDiluidas = bruto * 0.27;
 
-  let percImpostoPJ = 0.06;
-  if (bruto > 12000) percImpostoPJ = 0.09;
+  // Base PJ
+  let taxaPJ = 0.06;
+  if (bruto > 12000) taxaPJ = 0.09;
 
-  const impostosPJ = bruto * percImpostoPJ;
+  const impostoPJ = bruto * taxaPJ;
   const custoContabilidade = 200;
-  const liquidoPJ = bruto - impostosPJ - custoContabilidade;
+  const liquidoPJ = bruto - impostoPJ - custoContabilidade;
 
-  document.getElementById("clt-descontos").textContent = formatarReal(descontosCLT);
+  // Atualização de elementos
+  document.getElementById("clt-bruto-val").textContent = formatarReal(bruto);
+  document.getElementById("clt-descontos").textContent = `- ${formatarReal(deducoesCLT)}`;
   document.getElementById("clt-liquido").textContent = formatarReal(liquidoCLT);
-  document.getElementById("clt-anual").textContent = `+ ${formatarReal(beneficiosDiluidos)}/mês`;
+  document.getElementById("clt-anual").textContent = `+ ${formatarReal(provisoesDiluidas)}/mês`;
 
-  document.getElementById("pj-impostos").textContent = formatarReal(impostosPJ);
+  document.getElementById("pj-bruto-val").textContent = formatarReal(bruto);
+  document.getElementById("pj-impostos").textContent = `- ${formatarReal(impostoPJ)}`;
   document.getElementById("pj-liquido").textContent = formatarReal(liquidoPJ);
 }

@@ -3,158 +3,210 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel de Remuneração e Stacks Tech Brasil</title>
+  <title>Salários Tech Brasil — Panorama e Calculadora CLT / PJ</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <div class="title-row">
-        <h1>Painel de Remuneração Tech Brasil</h1>
-        <span class="status-tag">Base de Mercado</span>
-      </div>
-      <p class="subtitle">Consulta de faixas salariais por tecnologia e região com simulador comparativo de regimes contratuais.</p>
+
+  <nav class="topbar">
+    <div class="container bar-content">
+      <span class="brand">salarios.tech<strong>.br</strong></span>
+      <span class="source-tag">Dados compilados da comunidade</span>
     </div>
-  </header>
+  </nav>
 
-  <main class="container main-content">
-    <section class="filter-panel">
-      <div class="field-group">
-        <label for="select-linguagem">Tecnologia</label>
-        <select id="select-linguagem">
-          <option value="">Selecione uma linguagem</option>
-        </select>
+  <main class="container app-container">
+    
+    <!-- Filtros de Entrada -->
+    <header class="search-header">
+      <div class="search-title">
+        <h2>Remuneração de Desenvolvimento de Software no Brasil</h2>
+        <p>Faixas salariais brutas por tecnologia e mercado regional, integradas a cálculo comparativo de regime fiscal.</p>
       </div>
 
-      <div class="field-group">
-        <label for="select-regiao">Mercado / Região</label>
-        <select id="select-regiao">
-          <option value="">Selecione a região</option>
-        </select>
-      </div>
-
-      <div class="field-group action-group">
-        <button id="btn-consultar" class="btn btn-primary">Carregar Dados</button>
-      </div>
-    </section>
-
-    <section id="placeholder-box" class="placeholder-box">
-      <h3>Parâmetros não definidos</h3>
-      <p>Selecione uma tecnologia e uma região acima para renderizar os dados de remuneração e análise de contratação.</p>
-    </section>
-
-    <div id="results-panel" class="results-panel hidden">
-      <div class="grid-layout">
-        <article class="card">
-          <div class="card-head">
-            <div>
-              <h2 id="res-title-stack">Faixas Salariais</h2>
-              <span id="res-regiao-badge" class="sub-label">Região</span>
-            </div>
-            <span id="res-demanda-badge" class="indicator-badge">Demanda</span>
-          </div>
-
-          <div class="metric-list">
-            <div class="metric-item" onclick="selecionarSalarioParaCalculadora('junior')">
-              <div class="metric-header">
-                <span>Nível Júnior</span>
-                <strong id="sal-jr-txt">R$ 0 - R$ 0</strong>
-              </div>
-              <div class="track"><div id="bar-jr" class="fill" style="width: 30%;"></div></div>
-            </div>
-
-            <div class="metric-item" onclick="selecionarSalarioParaCalculadora('pleno')">
-              <div class="metric-header">
-                <span>Nível Pleno</span>
-                <strong id="sal-pl-txt">R$ 0 - R$ 0</strong>
-              </div>
-              <div class="track"><div id="bar-pl" class="fill" style="width: 60%;"></div></div>
-            </div>
-
-            <div class="metric-item" onclick="selecionarSalarioParaCalculadora('senior')">
-              <div class="metric-header">
-                <span>Nível Sênior</span>
-                <strong id="sal-sr-txt">R$ 0 - R$ 0</strong>
-              </div>
-              <div class="track"><div id="bar-sr" class="fill" style="width: 95%;"></div></div>
-            </div>
-          </div>
-          <span class="footnote">Clique em um nível para preencher a base de cálculo abaixo.</span>
-        </article>
-
-        <article class="card">
-          <div class="card-head">
-            <h2>Contexto Tecnológico</h2>
-          </div>
-          <div class="meta-block">
-            <span class="meta-title">Características Arquiteturais</span>
-            <p id="res-vantagens" class="meta-body">--</p>
-          </div>
-          <div class="meta-block">
-            <span class="meta-title">Pontos de Atenção</span>
-            <p id="res-desafios" class="meta-body">--</p>
-          </div>
-          <div class="meta-block">
-            <span class="meta-title">Ecossistema Relevante</span>
-            <div id="res-frameworks" class="tag-list"></div>
-          </div>
-        </article>
-      </div>
-
-      <section class="card">
-        <div class="card-head">
-          <div>
-            <h2>Simulação Contratual: CLT vs. PJ</h2>
-            <span class="sub-label">Projeção analítica considerando retenção fiscal e encargos diretos.</span>
-          </div>
+      <div class="controls-row">
+        <div class="control-unit">
+          <span class="control-label">Stack / Linguagem</span>
+          <select id="select-linguagem">
+            <option value="">Selecione...</option>
+          </select>
         </div>
 
-        <div class="calc-container">
-          <div class="calc-controls">
-            <label for="input-salario">Remuneração Base de Referência</label>
-            <div class="input-wrapper">
-              <span class="currency-prefix">R$</span>
-              <input type="number" id="input-salario" value="7000" step="500" min="1500" max="60000">
-            </div>
-            <button id="btn-calcular" class="btn btn-secondary">Atualizar Simulação</button>
+        <div class="control-unit">
+          <span class="control-label">Localidade / Região</span>
+          <select id="select-regiao">
+            <option value="">Selecione...</option>
+          </select>
+        </div>
+
+        <button id="btn-consultar" class="btn-action">Filtrar</button>
+      </div>
+    </header>
+
+    <!-- Estado Inicial / Neutro -->
+    <div id="placeholder-box" class="empty-state">
+      <p>Defina os parâmetros nos seletores acima para carregar as métricas da stack e a tabela salarial.</p>
+    </div>
+
+    <!-- Painel de Dados -->
+    <div id="results-panel" class="results-panel hidden">
+      
+      <!-- Linha Superior: Resumo e Tabela -->
+      <section class="panel-section">
+        <div class="section-title-row">
+          <div>
+            <h3 id="res-title-stack">Faixas Salariais</h3>
+            <span id="res-regiao-badge" class="meta-inline">Região</span>
           </div>
+          <span id="res-demanda-badge" class="badge-tag">Demanda</span>
+        </div>
 
-          <div class="calc-results-grid">
-            <div class="contract-card">
-              <div class="contract-title">
-                <h3>CLT</h3>
-                <span class="contract-type">Consolidação das Leis do Trabalho</span>
-              </div>
-              <ul class="ledger">
-                <li><span>Retenções compulsórias (INSS + IRRF):</span> <strong id="clt-descontos">R$ 0,00</strong></li>
-                <li class="ledger-highlight"><span>Salário líquido em conta:</span> <strong id="clt-liquido">R$ 0,00</strong></li>
-                <li class="ledger-meta"><span>Acréscimos diferidos (13º, férias e FGTS diluídos):</span> <strong id="clt-anual">+ R$ 0,00/mês</strong></li>
-              </ul>
-            </div>
+        <!-- Tabela Compacta de Salários -->
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Senioridade</th>
+              <th>Piso Médio</th>
+              <th>Teto Médio</th>
+              <th>Mediana Estimada</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Júnior</strong></td>
+              <td class="num font-mono" id="sal-jr-min">R$ 0</td>
+              <td class="num font-mono" id="sal-jr-max">R$ 0</td>
+              <td class="num font-mono highlight" id="sal-jr-med">R$ 0</td>
+              <td><button class="btn-sm" onclick="selecionarSalarioParaCalculadora('junior')">Simular</button></td>
+            </tr>
+            <tr>
+              <td><strong>Pleno</strong></td>
+              <td class="num font-mono" id="sal-pl-min">R$ 0</td>
+              <td class="num font-mono" id="sal-pl-max">R$ 0</td>
+              <td class="num font-mono highlight" id="sal-pl-med">R$ 0</td>
+              <td><button class="btn-sm" onclick="selecionarSalarioParaCalculadora('pleno')">Simular</button></td>
+            </tr>
+            <tr>
+              <td><strong>Sênior</strong></td>
+              <td class="num font-mono" id="sal-sr-min">R$ 0</td>
+              <td class="num font-mono" id="sal-sr-max">R$ 0</td>
+              <td class="num font-mono highlight" id="sal-sr-med">R$ 0</td>
+              <td><button class="btn-sm" onclick="selecionarSalarioParaCalculadora('senior')">Simular</button></td>
+            </tr>
+          </tbody>
+        </table>
 
-            <div class="contract-card">
-              <div class="contract-title">
-                <h3>PJ</h3>
-                <span class="contract-type">Pessoa Jurídica (Simples Nacional)</span>
-              </div>
-              <ul class="ledger">
-                <li><span>Tributação estimada (Anexo III):</span> <strong id="pj-impostos">R$ 0,00</strong></li>
-                <li><span>Serviços contábeis de manutenção:</span> <strong>R$ 200,00</strong></li>
-                <li class="ledger-highlight"><span>Disponibilidade líquida final:</span> <strong id="pj-liquido">R$ 0,00</strong></li>
-              </ul>
-            </div>
+        <!-- Detalhes da Tecnologia em Lista Simples -->
+        <div class="tech-specs-grid">
+          <div>
+            <span class="spec-label">Perfil de Mercado & Vantagens</span>
+            <p id="res-vantagens" class="spec-text">--</p>
+          </div>
+          <div>
+            <span class="spec-label">Pontos de Atenção & Trade-offs</span>
+            <p id="res-desafios" class="spec-text">--</p>
+          </div>
+          <div>
+            <span class="spec-label">Frameworks e Bibliotecas Comuns</span>
+            <div id="res-frameworks" class="tech-pills"></div>
           </div>
         </div>
       </section>
+
+      <!-- Linha Inferior: Simulador CLT vs PJ -->
+      <section class="panel-section">
+        <div class="section-title-row">
+          <div>
+            <h3>Simulador Comparativo CLT versus PJ</h3>
+            <span class="meta-inline">Cálculo discriminado com deduções tributárias obrigatórias e encargos médios.</span>
+          </div>
+        </div>
+
+        <div class="calc-layout">
+          <div class="calc-input-panel">
+            <label for="input-salario">Salário Bruto de Referência</label>
+            <div class="input-money">
+              <span>R$</span>
+              <input type="number" id="input-salario" value="7000" step="500" min="1500" max="60000">
+            </div>
+            <button id="btn-calcular" class="btn-calc">Recalcular</button>
+            <small class="calc-hint">Altere o valor ou clique em "Simular" na tabela acima.</small>
+          </div>
+
+          <!-- Comparativo em 2 Colunas Limpas -->
+          <div class="ledger-columns">
+            
+            <div class="ledger-block">
+              <div class="ledger-header">
+                <h4>Regime CLT</h4>
+                <span>Carteira assinada</span>
+              </div>
+              <table class="ledger-table font-mono">
+                <tr>
+                  <td>Salário Bruto</td>
+                  <td class="val" id="clt-bruto-val">R$ 0,00</td>
+                </tr>
+                <tr>
+                  <td>Dedução INSS + IRRF (efetivo)</td>
+                  <td class="val neg" id="clt-descontos">- R$ 0,00</td>
+                </tr>
+                <tr class="total-row">
+                  <td>Líquido mensal em conta</td>
+                  <td class="val pos" id="clt-liquido">R$ 0,00</td>
+                </tr>
+                <tr class="perk-row font-sans">
+                  <td colspan="2">
+                    Estimativa de Provisão Anual (13º, Férias + 1/3, FGTS 8% diluídos):
+                    <strong class="font-mono" id="clt-anual">+ R$ 0,00/mês</strong>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div class="ledger-block">
+              <div class="ledger-header">
+                <h4>Regime PJ</h4>
+                <span>Simples Nacional (Anexo III)</span>
+              </div>
+              <table class="ledger-table font-mono">
+                <tr>
+                  <td>Faturamento Bruto (NF)</td>
+                  <td class="val" id="pj-bruto-val">R$ 0,00</td>
+                </tr>
+                <tr>
+                  <td>Imposto DAS (~6% a 9%)</td>
+                  <td class="val neg" id="pj-impostos">- R$ 0,00</td>
+                </tr>
+                <tr>
+                  <td>Custo de contabilidade / taxa</td>
+                  <td class="val neg">- R$ 200,00</td>
+                </tr>
+                <tr class="total-row">
+                  <td>Disponibilidade líquida final</td>
+                  <td class="val pos" id="pj-liquido">R$ 0,00</td>
+                </tr>
+                <tr class="perk-row font-sans">
+                  <td colspan="2">
+                    Não inclui férias remuneradas, rescisão ou previdência automática do empregador.
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
     </div>
   </main>
 
   <footer class="footer">
     <div class="container">
-      <p>Dados compilados a partir de médias de mercado declaradas pela comunidade técnica. Variações ocorrem por segmento, modelo de contratação e estrutura de benefícios.</p>
+      <p>Estimativas salariais consolidadas para orientação profissional técnica. Fatores contratuais específicos variam por convenção e modelo de trabalho.</p>
     </div>
   </footer>
 
