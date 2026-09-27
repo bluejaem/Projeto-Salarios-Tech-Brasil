@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salários Tech Brasil — Panorama e Calculadora CLT / PJ</title>
+  <title>Salários Tech Brasil — Panorama, Comparador e Calculadora CLT/PJ</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <nav class="topbar">
+  <nav class="topbar no-print">
     <div class="container bar-content">
       <span class="brand">salarios.tech<strong>.br</strong></span>
       <span class="source-tag">Dados compilados da comunidade</span>
@@ -21,7 +21,7 @@
   <main class="container app-container">
     
     <!-- Filtros de Entrada -->
-    <header class="search-header">
+    <header class="search-header no-print">
       <div class="search-title">
         <h2>Remuneração de Desenvolvimento de Software no Brasil</h2>
         <p>Faixas salariais brutas por tecnologia e mercado regional, integradas a cálculo comparativo de regime fiscal.</p>
@@ -29,7 +29,7 @@
 
       <div class="controls-row">
         <div class="control-unit">
-          <span class="control-label">Stack / Linguagem</span>
+          <span class="control-label">Stack Principal</span>
           <select id="select-linguagem">
             <option value="">Selecione...</option>
           </select>
@@ -42,19 +42,26 @@
           </select>
         </div>
 
+        <div class="control-unit">
+          <span class="control-label">Comparar com (Opcional)</span>
+          <select id="select-comparar">
+            <option value="">Nenhuma (Modo individual)</option>
+          </select>
+        </div>
+
         <button id="btn-consultar" class="btn-action">Filtrar</button>
       </div>
     </header>
 
     <!-- Estado Inicial / Neutro -->
-    <div id="placeholder-box" class="empty-state">
+    <div id="placeholder-box" class="empty-state no-print">
       <p>Defina os parâmetros nos seletores acima para carregar as métricas da stack e a tabela salarial.</p>
     </div>
 
     <!-- Painel de Dados -->
     <div id="results-panel" class="results-panel hidden">
       
-      <!-- Linha Superior: Resumo e Tabela -->
+      <!-- Seção 1: Visualização Individual ou Comparativa -->
       <section class="panel-section">
         <div class="section-title-row">
           <div>
@@ -64,70 +71,38 @@
           <span id="res-demanda-badge" class="badge-tag">Demanda</span>
         </div>
 
-        <!-- Tabela Compacta de Salários -->
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Senioridade</th>
-              <th>Piso Médio</th>
-              <th>Teto Médio</th>
-              <th>Mediana Estimada</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Júnior</strong></td>
-              <td class="num font-mono" id="sal-jr-min">R$ 0</td>
-              <td class="num font-mono" id="sal-jr-max">R$ 0</td>
-              <td class="num font-mono highlight" id="sal-jr-med">R$ 0</td>
-              <td><button class="btn-sm" onclick="selecionarSalarioParaCalculadora('junior')">Simular</button></td>
-            </tr>
-            <tr>
-              <td><strong>Pleno</strong></td>
-              <td class="num font-mono" id="sal-pl-min">R$ 0</td>
-              <td class="num font-mono" id="sal-pl-max">R$ 0</td>
-              <td class="num font-mono highlight" id="sal-pl-med">R$ 0</td>
-              <td><button class="btn-sm" onclick="selecionarSalarioParaCalculadora('pleno')">Simular</button></td>
-            </tr>
-            <tr>
-              <td><strong>Sênior</strong></td>
-              <td class="num font-mono" id="sal-sr-min">R$ 0</td>
-              <td class="num font-mono" id="sal-sr-max">R$ 0</td>
-              <td class="num font-mono highlight" id="sal-sr-med">R$ 0</td>
-              <td><button class="btn-sm" onclick="selecionarSalarioParaCalculadora('senior')">Simular</button></td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- Tabela Dinâmica (Gera colunas extras se comparar 2 stacks) -->
+        <div class="table-wrapper">
+          <table class="data-table" id="tabela-salarios">
+            <thead>
+              <tr id="thead-row">
+                <!-- Preenchido via app.js -->
+              </tr>
+            </thead>
+            <tbody id="tbody-salarios">
+              <!-- Preenchido via app.js -->
+            </tbody>
+          </table>
+        </div>
 
-        <!-- Detalhes da Tecnologia em Lista Simples -->
-        <div class="tech-specs-grid">
-          <div>
-            <span class="spec-label">Perfil de Mercado & Vantagens</span>
-            <p id="res-vantagens" class="spec-text">--</p>
-          </div>
-          <div>
-            <span class="spec-label">Pontos de Atenção & Trade-offs</span>
-            <p id="res-desafios" class="spec-text">--</p>
-          </div>
-          <div>
-            <span class="spec-label">Frameworks e Bibliotecas Comuns</span>
-            <div id="res-frameworks" class="tech-pills"></div>
-          </div>
+        <!-- Detalhes da Tecnologia / Comparativo de Stacks -->
+        <div class="tech-specs-grid" id="tech-specs-container">
+          <!-- Preenchido via app.js -->
         </div>
       </section>
 
-      <!-- Linha Inferior: Simulador CLT vs PJ -->
-      <section class="panel-section">
+      <!-- Seção 2: Simulador CLT vs PJ com Exportação -->
+      <section class="panel-section print-focus">
         <div class="section-title-row">
           <div>
             <h3>Simulador Comparativo CLT versus PJ</h3>
-            <span class="meta-inline">Cálculo discriminado com deduções tributárias obrigatórias e encargos médios.</span>
+            <span class="meta-inline">Projeção analítica considerando retenção fiscal e encargos médios.</span>
           </div>
+          <button id="btn-exportar" class="btn-sm no-print">Exportar Relatório (PDF)</button>
         </div>
 
         <div class="calc-layout">
-          <div class="calc-input-panel">
+          <div class="calc-input-panel no-print">
             <label for="input-salario">Salário Bruto de Referência</label>
             <div class="input-money">
               <span>R$</span>
@@ -137,7 +112,7 @@
             <small class="calc-hint">Altere o valor ou clique em "Simular" na tabela acima.</small>
           </div>
 
-          <!-- Comparativo em 2 Colunas Limpas -->
+          <!-- Colunas do Demonstrativo Fiscal -->
           <div class="ledger-columns">
             
             <div class="ledger-block">
@@ -160,7 +135,7 @@
                 </tr>
                 <tr class="perk-row font-sans">
                   <td colspan="2">
-                    Estimativa de Provisão Anual (13º, Férias + 1/3, FGTS 8% diluídos):
+                    Provisão Anual (13º, Férias + 1/3 e FGTS 8% diluídos):
                     <strong class="font-mono" id="clt-anual">+ R$ 0,00/mês</strong>
                   </td>
                 </tr>
@@ -182,7 +157,7 @@
                   <td class="val neg" id="pj-impostos">- R$ 0,00</td>
                 </tr>
                 <tr>
-                  <td>Custo de contabilidade / taxa</td>
+                  <td>Custo contabilidade / taxa</td>
                   <td class="val neg">- R$ 200,00</td>
                 </tr>
                 <tr class="total-row">
@@ -191,7 +166,7 @@
                 </tr>
                 <tr class="perk-row font-sans">
                   <td colspan="2">
-                    Não inclui férias remuneradas, rescisão ou previdência automática do empregador.
+                    Sem benefícios diferidos compulsórios (férias, FGTS e aviso prévio sob gestão individual).
                   </td>
                 </tr>
               </table>
@@ -204,7 +179,7 @@
     </div>
   </main>
 
-  <footer class="footer">
+  <footer class="footer no-print">
     <div class="container">
       <p>Estimativas salariais consolidadas para orientação profissional técnica. Fatores contratuais específicos variam por convenção e modelo de trabalho.</p>
     </div>

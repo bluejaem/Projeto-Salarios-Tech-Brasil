@@ -40,7 +40,7 @@ body {
   width: 100%;
 }
 
-/* Topbar sóbria */
+/* Topbar */
 .topbar {
   border-bottom: 1px solid var(--border);
   background-color: #0b0f17;
@@ -110,7 +110,7 @@ body {
 
 .control-unit {
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -212,6 +212,10 @@ select:focus {
 }
 
 /* Tabela de Dados Salariais */
+.table-wrapper {
+  overflow-x: auto;
+}
+
 .data-table {
   width: 100%;
   border-collapse: collapse;
@@ -219,7 +223,7 @@ select:focus {
 }
 
 .data-table th, .data-table td {
-  padding: 0.75rem 0.75rem;
+  padding: 0.75rem;
   border-bottom: 1px solid var(--border);
   text-align: left;
 }
@@ -237,9 +241,7 @@ select:focus {
   font-size: 0.9rem;
 }
 
-.data-table th:nth-child(2),
-.data-table th:nth-child(3),
-.data-table th:nth-child(4) {
+.data-table th.num-header {
   text-align: right;
 }
 
@@ -265,12 +267,18 @@ select:focus {
   border-color: var(--accent);
 }
 
-/* Especificações da Tecnologia */
+/* Especificações Técnicas */
 .tech-specs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.25rem;
   padding-top: 0.5rem;
+}
+
+.spec-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .spec-label {
@@ -461,4 +469,42 @@ select:focus {
   text-align: center;
   color: var(--text-muted);
   font-size: 0.78rem;
+}
+
+/* Regras de Impressão / Exportação PDF limpo */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .panel-section {
+    background: #fff !important;
+    border: 1px solid #ccc !important;
+    color: #000 !important;
+    page-break-inside: avoid;
+  }
+  .data-table th, .data-table td, .ledger-table td {
+    border-color: #eee !important;
+    color: #111 !important;
+  }
+  .ledger-block {
+    background: #fafafa !important;
+    border: 1px solid #ddd !important;
+  }
+  .data-table td.highlight, .ledger-table td.pos {
+    color: #047857 !important;
+  }
+  .ledger-table td.neg {
+    color: #b91c1c !important;
+  }
+  .calc-layout {
+    grid-template-columns: 1fr !important;
+  }
 }
