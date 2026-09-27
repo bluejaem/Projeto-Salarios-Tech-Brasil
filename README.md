@@ -1,101 +1,63 @@
-# Consulta de Salários Tech Brasil
+# Painel de Remuneração e Stacks Tech Brasil
 
-Este repositório contém duas maneiras de consultar médias/estimativas salariais por linguagem e região:
+Aplicação para análise de mercado de tecnologia no Brasil, desenvolvida para consultar médias salariais por stack tecnológica e região geográfica, além de fornecer simulações analíticas de regimes de contratação (CLT versus PJ).
 
-- Um utilitário CLI em `programa.py` (executado em terminal).
-- Uma interface web estática moderna e responsiva na pasta `web/` — recomendada para uso por qualquer pessoa (mobile ou desktop).
-
-## Pasta `web` (interface recomendada)
-
-Descrição:
-
-- SPA estática (HTML/CSS/JS) responsiva com botões por linguagem, seleção de região e seção que mostra vantagens de cada linguagem.
-- Os dados usados pela SPA ficam em `web/dados.json` (cópia dos dados originais) para permitir uso sem backend.
-
-Como usar localmente:
-
-1. Abra o arquivo `web/index.html` diretamente no navegador (funciona em muitos casos). Para evitar restrições de CORS em alguns navegadores, recomenda-se servir a pasta `web` com um servidor HTTP simples:
-
-   ```powershell
-   cd web
-   python -m http.server 8000
-   ```
-
-   Depois abra: `http://127.0.0.1:8000`
-
-2. A interface é responsiva e funciona bem em dispositivos mobile e desktop.
-
-## Executar o CLI
-
-Para usuários que preferem o terminal:
-
-```powershell
-python programa.py
-```
-
-## Executar o servidor Flask (opcional)
-
-Há também um exemplo de servidor Flask (`app.py`) que expõe uma interface simples. Para usá-lo instale dependências e execute:
-
-```powershell
-pip install -r requirements.txt
-python app.py
-```
-
-Abra: `http://127.0.0.1:5000`
-
-## Notas técnicas
-
-- A SPA estática foi criada para ser fácil de hospedar em qualquer servidor estático (GitHub Pages, Netlify, Vercel, etc.).
-- A seção de vantagens exibe pontos curtos e práticos para cada linguagem; você pode editar `web/app.js` para ajustar os textos.
-
-## Próximos passos possíveis
-
-- Converter as faixas textuais em números para calcular médias numéricas.
-- Adicionar traduções e suporte para mais regiões.
+O projeto é disponibilizado em duas modalidades de execução:
+- Interface web estática (`web/`) com renderização no cliente (HTML, CSS e JavaScript puro), sem necessidade de serviços de backend ativos.
+- Utilitário de linha de comando (`programa.py`) em Python para consultas rápidas via terminal.
 
 ---
-Feito para desenvolvedores — interface responsiva e simples.
-#  Consulta de Salários Tech Brasil
 
-Este projeto consiste em uma aplicação de linha de comando (CLI) desenvolvida em **Python** que atua como um consultor de mercado para profissionais de tecnologia. O objetivo é fornecer uma estimativa salarial precisa e contextualizada baseada na **Linguagem de Programação** e na **Região Geográfica** de atuação no Brasil.
+## Sumário
 
-##  O que o programa faz?
+- [Arquitetura e Recursos](#arquitetura-e-recursos)
+- [Base de Dados e Modelagem](#base-de-dados-e-modelagem)
+- [Estrutura do Repositório](#estrutura-do-repositório)
+- [Instruções de Execução](#instruções-de-execução)
+  - [Interface Web](#1-interface-web)
+  - [Utilitário de Terminal (CLI)](#2-utilitário-de-terminal-cli)
+  - [Servidor Flask (Opcional)](#3-servidor-flask-opcional)
 
-O software interage com o usuário solicitando dois parâmetros principais e, com base neles, consulta uma base de dados interna detalhada para retornar as faixas salariais de mercado.
+---
 
-### Principais Funcionalidades:
+## Arquitetura e Recursos
 
-1.  **Consulta Cruzada de Dados:**
-    * Cruza informações de **11 Linguagens/Tecnologias** (Java, C, PHP, HTML, Python, JavaScript, CSS, C#, Q#, Swift, Perl) com as **5 Regiões do Brasil** (Norte, Nordeste, Centro-Oeste, Sudeste, Sul).
+### Interface Web (`web/`)
+- **Renderização e Estado Client-Side:** Consulta assíncrona ao arquivo `dados.json` via Fetch API, gerando componentes de visualização dinâmica sem recarregamento de página.
+- **Detalhamento por Senioridade:** Estruturação visual das faixas de mercado para níveis Júnior, Pleno e Sênior por região.
+- **Contexto Técnico:** Mapeamento de vantagens arquiteturais, limitações operacionais, frameworks dominantes e indicador de demanda para a stack selecionada.
+- **Simulador Contratual (CLT vs. PJ):** 
+  - Cálculo de retenções tributárias na fonte (alíquotas de INSS e IRRF progressivo).
+  - Cômputo de benefícios diferidos (13º salário, férias proporcionais e depósito de FGTS diluídos mensalmente).
+  - Projeção de retenção em regime de Pessoa Jurídica via Simples Nacional (Anexo III) deduzindo custos fixos de manutenção contábil.
 
-2.  **Detalhamento por Senioridade:**
-    * Diferente de calculadoras simples, o programa entrega faixas salariais específicas para os níveis **Júnior**, **Pleno** e **Sênior**.
+### Utilitário CLI (`programa.py`)
+- Script autônomo baseado em Python padrão (sem dependências externas obrigatórias).
+- Tratamento e normalização de entradas de texto (`case-insensitive`) com validação de opções inválidas.
+- Apresentação formatada das faixas salariais e notas contextuais de mercado regional no próprio console.
 
-3.  **Contexto de Mercado Regional:**
-    * O sistema não exibe apenas números; ele traz *insights* sobre o mercado local.
-    * *Exemplo:* Diferencia os salários de Python no Centro-Oeste (impulsionados pelo setor governamental e AgroTech) dos salários no Norte (focados no Polo Industrial de Manaus).
+---
 
-4.  **Validação e Tratamento de Erros:**
-    * Possui um sistema robusto de entrada de dados (`input`), que ignora diferenças entre maiúsculas/minúsculas e impede que o usuário digite opções inválidas, garantindo que o programa não quebre durante a execução.
+## Base de Dados e Modelagem
 
-##  Tecnologias Utilizadas
+Os dados estão estruturados sob o esquema `Linguagem -> Região -> Senioridade`, permitindo indexação direta em tempo constante:
 
-* **Linguagem:** Python 3
-* **Estrutura de Dados:** Dicionários aninhados (Nested Dictionaries) para mapeamento eficiente de *Linguagem -> Região -> Dados*.
-* **Interface:** CLI (Command Line Interface) limpa e formatada.
+- **Tecnologias mapeadas:** JavaScript, Python, Java, C#, PHP, Swift, C, Perl.
+- **Mercados geográficos:** Sudeste, Sul, Nordeste, Centro-Oeste, Norte e Remoto Nacional.
+- **Faixas:** Intervalos de remuneração bruta em Reais (BRL).
 
-##  Linguagens Suportadas
+---
 
-* **Backend/Systems:** Java, C, C#, PHP, Perl, Python
-* **Frontend/Web:** HTML, CSS, JavaScript
-* **Mobile:** Swift (iOS)
-* **Emergente/P&D:** Q# (Computação Quântica)
+## Estrutura do Repositório
 
-##  Como executar
-
-1. Certifique-se de ter o Python instalado.
-2. Clone o repositório.
-3. Execute o arquivo principal:
-   ```bash
-   python programa.py
+```text
+├── dados.json             # Base de dados central utilizada pelas aplicações Python
+├── programa.py            # Script interativo via linha de comando (CLI)
+├── requirements.txt       # Dependências opcionais para execução do servidor Flask
+├── static/                # Folhas de estilo do servidor Flask
+├── templates/             # Templates Jinja2 do servidor Flask
+└── web/                   # Aplicação web estática autônoma
+    ├── app.js             # Lógica de manipulação de DOM e cálculos financeiros
+    ├── dados.json         # Base de dados estruturada consumida pela SPA
+    ├── index.html         # Marcação semântica da interface
+    └── style.css          # Estilização CSS e layouts responsivos
