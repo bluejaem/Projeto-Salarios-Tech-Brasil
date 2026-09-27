@@ -1,90 +1,102 @@
 {
-    "java": {
-        "nome": "Java",
-        "vantagens": "Alta demanda corporativa, robustez, portabilidade (roda em qualquer lugar) e forte comunidade.",
-        "salarios": {
-            "sul": "\n    - Júnior: R$ 3.500 - R$ 5.000\n    - Pleno:  R$ 7.000 - R$ 9.500\n    - Sênior: R$ 11.000 - R$ 16.000",
-            "sudeste": "\n    - Júnior: R$ 4.000 - R$ 5.500\n    - Pleno:  R$ 7.500 - R$ 10.500\n    - Sênior: R$ 12.000 - R$ 18.000+",
-            "norte": "\n    - Júnior: R$ 2.200 - R$ 3.000\n    - Pleno:  R$ 4.500 - R$ 6.500\n    - Sênior: R$ 7.000 - R$ 10.000",
-            "nordeste": "\n    - Júnior: R$ 2.500 - R$ 3.800\n    - Pleno:  R$ 5.000 - R$ 7.500\n    - Sênior: R$ 8.000 - R$ 12.000",
-            "centro-oeste": "\n    - Júnior: R$ 3.500 - R$ 4.800\n    - Pleno:  R$ 6.500 - R$ 9.000\n    - Sênior: R$ 10.000 - R$ 15.000"
-        }
+  "linguagens": {
+    "JavaScript": {
+      "vantagens": "Linguagem nativa do ecossistema web, ampla oferta de vagas e viabilidade para arquiteturas full stack com Node.js.",
+      "desafios": "Alta rotatividade de ferramentas e necessidade de migração para TypeScript em projetos de grande escala.",
+      "frameworks": ["React", "Node.js", "Next.js", "Vue.js", "TypeScript"],
+      "demanda": "Alta demanda contínua",
+      "regioes": {
+        "Sudeste": { "junior": [3500, 5000], "pleno": [6500, 10000], "senior": [11000, 16000] },
+        "Sul": { "junior": [3200, 4500], "pleno": [6000, 9000], "senior": [10000, 14500] },
+        "Nordeste": { "junior": [2800, 4000], "pleno": [5000, 8000], "senior": [8500, 13000] },
+        "Centro-Oeste": { "junior": [3000, 4200], "pleno": [5500, 8500], "senior": [9000, 13500] },
+        "Norte": { "junior": [2600, 3800], "pleno": [4800, 7500], "senior": [8000, 12000] },
+        "Remoto Nacional": { "junior": [3500, 5500], "pleno": [7000, 11000], "senior": [12000, 18000] }
+      }
     },
-    "c": {
-        "nome": "C",
-        "vantagens": "Desempenho extremamente rápido, controle total da memória, base para a maioria das outras linguagens.",
-        "salarios": {
-            "norte": "\n    - Júnior: R$ 3.500 - R$ 5.200\n    - Pleno:  R$ 6.500 - R$ 9.500\n    - Sênior: R$ 10.000 - R$ 16.000",
-            "sudeste": "\n    - Júnior: R$ 4.200 - R$ 6.000\n    - Pleno:  R$ 8.000 - R$ 11.000\n    - Sênior: R$ 13.000 - R$ 20.000+",
-            "sul": "\n    - Júnior: R$ 3.800 - R$ 5.500\n    - Pleno:  R$ 7.500 - R$ 10.000\n    - Sênior: R$ 12.000 - R$ 17.000",
-            "nordeste": "\n    - Júnior: R$ 3.000 - R$ 4.200\n    - Pleno:  R$ 6.000 - R$ 8.500\n    - Sênior: R$ 9.000 - R$ 13.000",
-            "centro-oeste": "\n    - Júnior: R$ 3.500 - R$ 4.500\n    - Pleno:  R$ 6.500 - R$ 8.500\n    - Sênior: R$ 10.000 - R$ 14.000"
-        }
+    "Python": {
+      "vantagens": "Sintaxe concisa, ecossistema consolidado para ciência de dados, machine learning, automação e back-end.",
+      "desafios": "Desempenho de execução inferior em processamento intensivo quando comparado a linguagens compiladas.",
+      "frameworks": ["FastAPI", "Django", "Pandas", "PyTorch", "Flask"],
+      "demanda": "Alta demanda contínua",
+      "regioes": {
+        "Sudeste": { "junior": [3800, 5500], "pleno": [7000, 11000], "senior": [12000, 17500] },
+        "Sul": { "junior": [3400, 4800], "pleno": [6500, 9800], "senior": [10500, 15000] },
+        "Nordeste": { "junior": [3000, 4300], "pleno": [5500, 8500], "senior": [9000, 13500] },
+        "Centro-Oeste": { "junior": [3200, 4600], "pleno": [6000, 9000], "senior": [9500, 14000] },
+        "Norte": { "junior": [2800, 4000], "pleno": [5000, 8000], "senior": [8500, 12500] },
+        "Remoto Nacional": { "junior": [4000, 6000], "pleno": [7500, 12000], "senior": [13000, 19000] }
+      }
     },
-    "python": {
-        "nome": "Python",
-        "vantagens": "Sintaxe simples e legível, dominância em Data Science e IA, vasta biblioteca de frameworks.",
-        "salarios": {
-            "centro-oeste": "\n    - Júnior: R$ 4.200 - R$ 5.500\n    - Pleno:  R$ 8.500 - R$ 11.000\n    - Sênior: R$ 13.000 - R$ 16.500",
-            "nordeste": "\n    - Júnior: R$ 3.000 - R$ 4.000\n    - Pleno:  R$ 6.500 - R$ 8.500\n    - Sênior: R$ 10.000 - R$ 13.500",
-            "norte": "\n    - Júnior: R$ 3.200 - R$ 4.200\n    - Pleno:  R$ 7.000 - R$ 9.000\n    - Sênior: R$ 11.000 - R$ 14.000",
-            "sudeste": "\n    - Júnior: R$ 4.500 - R$ 5.800\n    - Pleno:  R$ 9.000 - R$ 12.000\n    - Sênior: R$ 15.000 - R$ 20.000+",
-            "sul": "\n    - Júnior: R$ 4.000 - R$ 5.200\n    - Pleno:  R$ 8.000 - R$ 10.500\n    - Sênior: R$ 13.500 - R$ 17.000"
-        }
+    "Java": {
+      "vantagens": "Forte presença em sistemas bancários e infraestruturas corporativas críticas, com alta retrocompatibilidade.",
+      "desafios": "Verbosidade de sintaxe e maior consumo inicial de memória em ambientes conteinerizados leves.",
+      "frameworks": ["Spring Boot", "Hibernate", "Quarkus", "Micronaut"],
+      "demanda": "Demanda corporativa estável",
+      "regioes": {
+        "Sudeste": { "junior": [3800, 5200], "pleno": [7000, 10500], "senior": [11500, 17000] },
+        "Sul": { "junior": [3500, 4800], "pleno": [6500, 9500], "senior": [10500, 15500] },
+        "Nordeste": { "junior": [3000, 4200], "pleno": [5500, 8500], "senior": [9000, 13500] },
+        "Centro-Oeste": { "junior": [3300, 4700], "pleno": [6000, 9200], "senior": [9800, 14000] },
+        "Norte": { "junior": [2900, 4000], "pleno": [5200, 8000], "senior": [8500, 12500] },
+        "Remoto Nacional": { "junior": [3800, 5800], "pleno": [7500, 11500], "senior": [12500, 18000] }
+      }
     },
-    "javascript": {
-        "nome": "JavaScript",
-        "vantagens": "Linguagem essencial da Web, roda no navegador e no servidor (Node.js), ecossistema gigante.",
-        "salarios": {
-            "centro-oeste": "\n    - Júnior: R$ 3.500 - R$ 4.500\n    - Pleno:  R$ 7.000 - R$ 9.000\n    - Sênior: R$ 11.000 - R$ 15.000",
-            "nordeste": "\n    - Júnior: R$ 2.500 - R$ 3.500\n    - Pleno:  R$ 5.000 - R$ 7.500\n    - Sênior: R$ 8.500 - R$ 12.000",
-            "norte": "\n    - Júnior: R$ 2.500 - R$ 3.200\n    - Pleno:  R$ 5.000 - R$ 7.000\n    - Sênior: R$ 8.000 - R$ 11.000",
-            "sudeste": "\n    - Júnior: R$ 3.500 - R$ 5.200\n    - Pleno:  R$ 7.000 - R$ 10.500\n    - Sênior: R$ 12.000 - R$ 18.000+",
-            "sul": "\n    - Júnior: R$ 3.200 - R$ 4.800\n    - Pleno:  R$ 6.500 - R$ 9.500\n    - Sênior: R$ 11.000 - R$ 16.000"
-        }
+    "C#": {
+      "vantagens": "Integração madura com a plataforma .NET, suporte robusto para arquiteturas corporativas e desenvolvimento de jogos.",
+      "desafios": "Historicamente associada ao ecossistema Windows, apesar do avanço multiplataforma do .NET Core.",
+      "frameworks": [".NET 8", "ASP.NET Core", "Entity Framework", "Unity"],
+      "demanda": "Demanda consolidada",
+      "regioes": {
+        "Sudeste": { "junior": [3600, 5000], "pleno": [6800, 10000], "senior": [11000, 16500] },
+        "Sul": { "junior": [3300, 4600], "pleno": [6200, 9200], "senior": [10000, 14800] },
+        "Nordeste": { "junior": [2900, 4100], "pleno": [5200, 8200], "senior": [8800, 13000] },
+        "Centro-Oeste": { "junior": [3100, 4500], "pleno": [5800, 8800], "senior": [9200, 13800] },
+        "Norte": { "junior": [2700, 3900], "pleno": [4900, 7800], "senior": [8200, 12200] },
+        "Remoto Nacional": { "junior": [3700, 5500], "pleno": [7200, 11000], "senior": [12000, 17500] }
+      }
     },
-    "php": {
-        "nome": "PHP",
-        "vantagens": "Fácil de aprender, barato para hospedar, motor de grande parte da web (WordPress, etc).",
-        "salarios": {
-             "centro-oeste": "\n    - Júnior: R$ 2.500 - R$ 3.500\n    - Pleno:  R$ 5.000 - R$ 7.500\n    - Sênior: R$ 8.000 - R$ 11.000",
-            "nordeste": "\n    - Júnior: R$ 2.000 - R$ 3.000\n    - Pleno:  R$ 4.000 - R$ 6.500\n    - Sênior: R$ 7.000 - R$ 10.000",
-            "norte": "\n    - Júnior: R$ 2.500 - R$ 3.500\n    - Pleno:  R$ 5.000 - R$ 7.500\n    - Sênior: R$ 8.000 - R$ 11.000",
-            "sudeste": "\n    - Júnior: R$ 3.000 - R$ 4.500\n    - Pleno:  R$ 6.000 - R$ 9.000\n    - Sênior: R$ 10.000 - R$ 14.000",
-            "sul": "\n    - Júnior: R$ 2.800 - R$ 4.000\n    - Pleno:  R$ 5.500 - R$ 8.500\n    - Sênior: R$ 9.000 - R$ 13.000"
-        }
+    "PHP": {
+      "vantagens": "Facilidade de implantação, infraestrutura de hospedagem de baixo custo e ampla presença em plataformas de comércio eletrônico.",
+      "desafios": "Manutenção frequente de bases de código legadas e média salarial inferior em comparação a ecossistemas compilados.",
+      "frameworks": ["Laravel", "Symfony", "WordPress", "Livewire"],
+      "demanda": "Alta demanda regional",
+      "regioes": {
+        "Sudeste": { "junior": [2800, 4200], "pleno": [5500, 8500], "senior": [9000, 13500] },
+        "Sul": { "junior": [2600, 3900], "pleno": [5000, 7800], "senior": [8500, 12500] },
+        "Nordeste": { "junior": [2400, 3500], "pleno": [4500, 7000], "senior": [7500, 11000] },
+        "Centro-Oeste": { "junior": [2500, 3800], "pleno": [4800, 7500], "senior": [8000, 11500] },
+        "Norte": { "junior": [2200, 3300], "pleno": [4200, 6500], "senior": [7000, 10500] },
+        "Remoto Nacional": { "junior": [3000, 4500], "pleno": [6000, 9500], "senior": [10000, 15000] }
+      }
     },
-    "c#": {
-        "nome": "C#",
-        "vantagens": "Forte integração com Microsoft, excelente para jogos (Unity) e sistemas corporativos.",
-        "salarios": {
-            "centro-oeste": "\n    - Júnior: R$ 3.800 - R$ 5.000\n    - Pleno:  R$ 7.500 - R$ 10.500\n    - Sênior: R$ 12.000 - R$ 16.000",
-            "nordeste": "\n    - Júnior: R$ 2.800 - R$ 3.800\n    - Pleno:  R$ 5.500 - R$ 7.800\n    - Sênior: R$ 9.000 - R$ 12.500",
-            "norte": "\n    - Júnior: R$ 2.500 - R$ 3.500\n    - Pleno:  R$ 5.000 - R$ 7.200\n    - Sênior: R$ 8.500 - R$ 11.500",
-            "sudeste": "\n    - Júnior: R$ 4.000 - R$ 5.500\n    - Pleno:  R$ 8.000 - R$ 11.500\n    - Sênior: R$ 13.000 - R$ 18.000+",
-            "sul": "\n    - Júnior: R$ 3.500 - R$ 4.800\n    - Pleno:  R$ 7.000 - R$ 9.500\n    - Sênior: R$ 11.000 - R$ 15.000"
-        }
+    "Swift": {
+      "vantagens": "Linguagem primária para plataformas Apple com acesso nativo aos recursos de hardware e APIs do sistema.",
+      "desafios": "Dependência de hardware macOS para compilação e mercado limitado ao desenvolvimento móvel.",
+      "frameworks": ["SwiftUI", "UIKit", "Combine", "CoreData"],
+      "demanda": "Demanda especializada",
+      "regioes": {
+        "Sudeste": { "junior": [4000, 5800], "pleno": [7500, 11500], "senior": [12500, 18500] },
+        "Sul": { "junior": [3600, 5000], "pleno": [6800, 10200], "senior": [11000, 16000] },
+        "Nordeste": { "junior": [3200, 4500], "pleno": [5800, 8800], "senior": [9500, 14000] },
+        "Centro-Oeste": { "junior": [3400, 4800], "pleno": [6200, 9400], "senior": [10000, 14500] },
+        "Norte": { "junior": [3000, 4200], "pleno": [5400, 8200], "senior": [8800, 13000] },
+        "Remoto Nacional": { "junior": [4200, 6200], "pleno": [8000, 12500], "senior": [13500, 20000] }
+      }
     },
-    "swift": {
-        "nome": "Swift",
-        "vantagens": "Nativa para ecossistema Apple (iOS/Mac), segura e performática.",
-        "salarios": {
-             "centro-oeste": "\n    - Júnior: R$ 4.000 - R$ 5.000\n    - Pleno:  R$ 7.500 - R$ 10.000\n    - Sênior: R$ 12.000 - R$ 15.500",
-            "nordeste": "\n    - Júnior: R$ 3.000 - R$ 4.200\n    - Pleno:  R$ 6.000 - R$ 8.500\n    - Sênior: R$ 10.000 - R$ 14.000",
-            "norte": "\n    - Júnior: R$ 3.000 - R$ 4.000\n    - Pleno:  R$ 6.000 - R$ 8.000\n    - Sênior: R$ 9.500 - R$ 13.000",
-            "sudeste": "\n    - Júnior: R$ 4.500 - R$ 6.000\n    - Pleno:  R$ 8.500 - R$ 12.000\n    - Sênior: R$ 14.000 - R$ 19.000+",
-            "sul": "\n    - Júnior: R$ 4.000 - R$ 5.500\n    - Pleno:  R$ 7.500 - R$ 10.500\n    - Sênior: R$ 12.000 - R$ 16.500"
-        }
-    },
-    "perl": {
-    "nome": "Perl",
-        "vantagens": "Excelente capacidade de manipulação de texto e flexibilidade da linguagem.",
-        "salarios": {
-            "centro-oeste": "\n    - Júnior: R$ 4.200 - R$ 5.500\n    - Pleno:  R$ 8.000 - R$ 10.500\n    - Sênior: R$ 12.500 - R$ 16.000",
-            "nordeste": "\n    - Júnior: R$ 3.000 - R$ 4.000\n    - Pleno:  R$ 6.000 - R$ 8.000\n    - Sênior: R$ 9.500 - R$ 13.000",
-            "norte": "\n    - Júnior: R$ 3.000 - R$ 3.800\n    - Pleno:  R$ 5.500 - R$ 7.500\n    - Sênior: R$ 9.000 - R$ 12.000",
-            "sudeste": "\n    - Júnior: R$ 4.500 - R$ 6.000\n    - Pleno:  R$ 8.500 - R$ 11.500\n    - Sênior: R$ 13.000 - R$ 17.000+",
-            "sul": "\n    - Júnior: R$ 4.000 - R$ 5.200\n    - Pleno:  R$ 7.500 - R$ 10.000\n    - Sênior: R$ 11.500 - R$ 15.000"
-        }
+    "C": {
+      "vantagens": "Controle direto de endereçamento de memória, execução em tempo quase real e compatibilidade direta com hardware.",
+      "desafios": "Ausência de gerenciamento automatizado de memória e risco elevado de falhas de segurança estruturais.",
+      "frameworks": ["Sistemas Embarcados", "Drivers de Dispositivo", "Kernel Linux", "RTOS"],
+      "demanda": "Demanda técnica de nicho",
+      "regioes": {
+        "Sudeste": { "junior": [3600, 5000], "pleno": [6500, 10000], "senior": [11000, 16500] },
+        "Sul": { "junior": [3200, 4600], "pleno": [6000, 9000], "senior": [10000, 15000] },
+        "Nordeste": { "junior": [2800, 4000], "pleno": [5200, 8000], "senior": [8500, 13000] },
+        "Centro-Oeste": { "junior": [3000, 4300], "pleno": [5600, 8500], "senior": [9000, 13500] },
+        "Norte": { "junior": [2600, 3800], "pleno": [4800, 7500], "senior": [8000, 12000] },
+        "Remoto Nacional": { "junior": [3800, 5500], "pleno": [7000, 11000], "senior": [12000, 17500] }
+      }
     }
+  }
 }

@@ -1,117 +1,135 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const langSelect = document.getElementById('language-select');
-    const regionSelect = document.getElementById('region-select');
-    const btnConsultar = document.getElementById('btn-consultar');
-    
-    const advantagesBox = document.getElementById('advantages-box');
-    const resultBox = document.getElementById('result-box');
-    
-    const advantagesText = document.getElementById('advantages-text');
-    const resLang = document.getElementById('res-lang');
-    const resRegion = document.getElementById('res-region');
-    const resValue = document.getElementById('res-value');
+let techData = null;
+let currentSalaries = { junior: 4000, pleno: 8000, senior: 13000 };
 
-    let database = {};
-
-    // 1. Carregar os dados do JSON — preferir dados embutidos (permite abrir via file://)
-    function displayLoadError(message){
-        console.error(message);
-        // Mostrar mensagem amigável na UI
-        resultBox.classList.add('visible');
-        resultBox.classList.remove('hidden');
-        document.getElementById('res-lang').textContent = '-';
-        document.getElementById('res-region').textContent = '-';
-        document.getElementById('res-value').textContent = message + '\n\nSugestão: sirva a pasta com um servidor HTTP (ex: `python -m http.server`) ou abra o arquivo via servidor local.';
-    }
-
-    const embeddedEl = document.getElementById('dados-json');
-    if (embeddedEl) {
-        try {
-            database = JSON.parse(embeddedEl.textContent);
-            popularSelectLinguagens();
-        } catch (err) {
-            displayLoadError('Erro ao interpretar dados embutidos: ' + err.message);
-        }
-    } else {
-        // fallback: buscar via fetch
-        fetch('dados.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Erro HTTP: " + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                database = data;
-                popularSelectLinguagens();
-            })
-            .catch(error => {
-                displayLoadError("Erro ao carregar 'dados.json': " + (error.message || error));
-            });
-    }
-
-    // 2. Popular o dropdown de linguagens
-    function popularSelectLinguagens() {
-        const linguagens = Object.keys(database);
-        linguagens.forEach(key => {
-            const option = document.createElement('option');
-            option.value = key;
-            // Pega o nome formatado do JSON (ex: "C#") ou usa a chave em maiúsculo
-            option.textContent = database[key].nome || key.toUpperCase();
-            langSelect.appendChild(option);
-        });
-    }
-
-    // 3. Evento: Quando escolher a linguagem
-    langSelect.addEventListener('change', () => {
-        // Habilitar a seleção de região
-        regionSelect.disabled = false;
-        regionSelect.value = ""; // Resetar região anterior
-        
-        // Atualizar texto de "Selecione"
-        regionSelect.options[0].text = "-- Selecione a Região --";
-        
-        // Mostrar Vantagens imediatamente
-        const langKey = langSelect.value;
-        if (database[langKey]) {
-            advantagesText.textContent = database[langKey].vantagens;
-            advantagesBox.classList.add('visible');
-            
-            // Esconder resultado antigo de salário se houver mudança
-            resultBox.classList.remove('visible');
-            btnConsultar.disabled = true;
-        }
-    });
-
-    // 4. Evento: Quando escolher a região
-    regionSelect.addEventListener('change', () => {
-        // Habilitar botão de consultar
-        if (langSelect.value && regionSelect.value) {
-            btnConsultar.disabled = false;
-        }
-    });
-
-    // 5. Evento: Clicar em Consultar
-    btnConsultar.addEventListener('click', () => {
-        const langKey = langSelect.value;
-        const regionKey = regionSelect.value;
-
-        const dadosLinguagem = database[langKey];
-        
-        if (dadosLinguagem && dadosLinguagem.salarios) {
-            const salarioTexto = dadosLinguagem.salarios[regionKey];
-
-            // Atualizar UI
-            resLang.textContent = dadosLinguagem.nome;
-            resRegion.textContent = regionKey.charAt(0).toUpperCase() + regionKey.slice(1); // Capitalizar
-            
-            if (salarioTexto) {
-                resValue.textContent = salarioTexto;
-            } else {
-                resValue.textContent = "Dados não disponíveis para esta combinação.";
-            }
-
-            resultBox.classList.add('visible');
-        }
-    });
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const response = await fetch("dados.json");
+    techData = await response.json();
+    popularSelects();
+    vincularEventos();
+  } catch (err) {
+    console.error("Erro na leitura de dados.json:", err);
+  }
 });
+
+function popularSelects() {
+  const selectLinguagem = document.getElementById("select-linguagem");
+  const selectRegiao = document.getElementById("select-regiao");
+
+  selectLinguagem.innerHTML = '<option value="">Selecione uma linguagem</option>';
+  for (const lang in techData.linguagens) {
+    const opt = document.createElement("option");
+    opt.value = lang;
+    opt.textContent = lang;
+    selectLinguagem.appendChild(opt);
+  }
+
+  const primeiraLang = Object.keys(techData.linguagens)[0];
+  const regioesDisponiveis = Object.keys(techData.linguagens[primeiraLang].regioes);
+
+  selectRegiao.innerHTML = '<option value="">Selecione a região</option>';
+  regioesDisponiveis.forEach(regiao => {
+    const opt = document.createElement("option");
+    opt.value = regiao;
+    opt.textContent = regiao;
+    selectRegiao.appendChild(opt);
+  });
+}
+
+function vincularEventos() {
+  document.getElementById("btn-consultar").addEventListener("click", executarConsulta);
+  document.getElementById("btn-calcular").addEventListener("click", calcularCLTvsPJ);
+  document.getElementById("input-salario").addEventListener("input", calcularCLTvsPJ);
+
+  document.getElementById("select-linguagem").addEventListener("change", () => {
+    if (document.getElementById("select-regiao").value) executarConsulta();
+  });
+  document.getElementById("select-regiao").addEventListener("change", () => {
+    if (document.getElementById("select-linguagem").value) executarConsulta();
+  });
+}
+
+function formatarReal(valor) {
+  return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+}
+
+function executarConsulta() {
+  const lang = document.getElementById("select-linguagem").value;
+  const regiao = document.getElementById("select-regiao").value;
+
+  if (!lang || !regiao) {
+    return;
+  }
+
+  const stack = techData.linguagens[lang];
+  const salario = stack.regioes[regiao];
+
+  if (!salario) return;
+
+  document.getElementById("placeholder-box").classList.add("hidden");
+  document.getElementById("results-panel").classList.remove("hidden");
+
+  document.getElementById("res-title-stack").textContent = `Remuneração: ${lang}`;
+  document.getElementById("res-regiao-badge").textContent = `Região: ${regiao}`;
+  document.getElementById("res-demanda-badge").textContent = stack.demanda;
+
+  document.getElementById("sal-jr-txt").textContent = `${formatarReal(salario.junior[0])} - ${formatarReal(salario.junior[1])}`;
+  document.getElementById("sal-pl-txt").textContent = `${formatarReal(salario.pleno[0])} - ${formatarReal(salario.pleno[1])}`;
+  document.getElementById("sal-sr-txt").textContent = `${formatarReal(salario.senior[0])} - ${formatarReal(salario.senior[1])}`;
+
+  currentSalaries = {
+    junior: (salario.junior[0] + salario.junior[1]) / 2,
+    pleno: (salario.pleno[0] + salario.pleno[1]) / 2,
+    senior: (salario.senior[0] + salario.senior[1]) / 2
+  };
+
+  document.getElementById("res-vantagens").textContent = stack.vantagens;
+  document.getElementById("res-desafios").textContent = stack.desafios;
+
+  const containerTags = document.getElementById("res-frameworks");
+  containerTags.innerHTML = "";
+  stack.frameworks.forEach(fw => {
+    const span = document.createElement("span");
+    span.className = "tag-item";
+    span.textContent = fw;
+    containerTags.appendChild(span);
+  });
+
+  document.getElementById("input-salario").value = currentSalaries.pleno;
+  calcularCLTvsPJ();
+}
+
+function selecionarSalarioParaCalculadora(senioridade) {
+  if (currentSalaries[senioridade]) {
+    document.getElementById("input-salario").value = currentSalaries[senioridade];
+    calcularCLTvsPJ();
+  }
+}
+
+function calcularCLTvsPJ() {
+  const bruto = parseFloat(document.getElementById("input-salario").value) || 0;
+
+  if (bruto <= 0) return;
+
+  let percDescontoCLT = 0.16;
+  if (bruto > 4000 && bruto <= 8000) percDescontoCLT = 0.22;
+  else if (bruto > 8000) percDescontoCLT = 0.26;
+
+  const descontosCLT = bruto * percDescontoCLT;
+  const liquidoCLT = bruto - descontosCLT;
+  const beneficiosDiluidos = bruto * 0.27;
+
+  let percImpostoPJ = 0.06;
+  if (bruto > 12000) percImpostoPJ = 0.09;
+
+  const impostosPJ = bruto * percImpostoPJ;
+  const custoContabilidade = 200;
+  const liquidoPJ = bruto - impostosPJ - custoContabilidade;
+
+  document.getElementById("clt-descontos").textContent = formatarReal(descontosCLT);
+  document.getElementById("clt-liquido").textContent = formatarReal(liquidoCLT);
+  document.getElementById("clt-anual").textContent = `+ ${formatarReal(beneficiosDiluidos)}/mês`;
+
+  document.getElementById("pj-impostos").textContent = formatarReal(impostosPJ);
+  document.getElementById("pj-liquido").textContent = formatarReal(liquidoPJ);
+}
